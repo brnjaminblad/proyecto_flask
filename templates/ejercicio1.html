@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ejercicio 1</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="contenedor">
+      <h1>Promedio de Notas</h1>
+
+      <form method="POST">
+        <input
+          type="number"
+          name="nota1"
+          placeholder="Nota 1"
+          min="10"
+          max="70"
+          required
+        />
+
+        <input
+          type="number"
+          name="nota2"
+          placeholder="Nota 2"
+          min="10"
+          max="70"
+          required
+        />
+
+        <input
+          type="number"
+          name="nota3"
+          placeholder="Nota 3"
+          min="10"
+          max="70"
+          required
+        />
+
+        <input
+          type="number"
+          name="asistencia"
+          placeholder="Asistencia %"
+          min="0"
+          max="100"
+          required
+        />
+
+        <button type="submit">Enviar</button>
+      </form>
+
+      {% if resultado %}
+      <h2>Promedio: {{ resultado.promedio }}</h2>
+      <h2>Estado: {{ resultado.estado }}</h2>
+      {% endif %}
+
+      <a href="/">Volver</a>
+    </div>
+  </body>
+</html>

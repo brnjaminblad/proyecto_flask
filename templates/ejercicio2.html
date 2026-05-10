@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ejercicio 2</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="contenedor">
+      <h1>Nombres</h1>
+
+      <form method="POST">
+        <input type="text" name="nombre1" placeholder="Nombre 1" required />
+
+        <input type="text" name="nombre2" placeholder="Nombre 2" required />
+
+        <input type="text" name="nombre3" placeholder="Nombre 3" required />
+
+        <button type="submit">Enviar</button>
+      </form>
+
+      {% if resultado %}
+      <h2>Nombre con más caracteres:</h2>
+      <h2>{{ resultado.nombre }}</h2>
+      <h2>Cantidad de caracteres: {{ resultado.cantidad }}</h2>
+      {% endif %}
+
+      <a href="/">Volver</a>
+    </div>
+  </body>
+</html>
