@@ -10,25 +10,58 @@
   </head>
   <body>
     <div class="contenedor">
-      <h1>Nombres</h1>
+      <h1>🧠 Comparar Nombres</h1>
 
       <form method="POST">
-        <input type="text" name="nombre1" placeholder="Nombre 1" required />
+        <input
+          type="text"
+          name="nombre1"
+          placeholder="Nombre 1"
+          required
+          pattern="[A-Za-záéíóúÁÉÍÓÚñÑ ]+"
+          oninvalid="this.setCustomValidity('Solo se permiten letras')"
+          oninput="this.setCustomValidity('')"
+        />
 
-        <input type="text" name="nombre2" placeholder="Nombre 2" required />
+        <input
+          type="text"
+          name="nombre2"
+          placeholder="Nombre 2"
+          required
+          pattern="[A-Za-záéíóúÁÉÍÓÚñÑ ]+"
+          oninvalid="this.setCustomValidity('Solo se permiten letras')"
+          oninput="this.setCustomValidity('')"
+        />
 
-        <input type="text" name="nombre3" placeholder="Nombre 3" required />
+        <input
+          type="text"
+          name="nombre3"
+          placeholder="Nombre 3"
+          required
+          pattern="[A-Za-záéíóúÁÉÍÓÚñÑ ]+"
+          oninvalid="this.setCustomValidity('Solo se permiten letras')"
+          oninput="this.setCustomValidity('')"
+        />
 
-        <button type="submit">Enviar</button>
+        <button type="submit">Analizar</button>
       </form>
 
-      {% if resultado %}
-      <h2>Nombre con más caracteres:</h2>
-      <h2>{{ resultado.nombre }}</h2>
-      <h2>Cantidad de caracteres: {{ resultado.cantidad }}</h2>
+      {% if error %}
+      <div class="error">
+        {{ error }}
+      </div>
+
+      {% endif %} {% if resultado %}
+      <div class="resultado">
+        <h2>Nombre más largo:</h2>
+
+        <h2>{{ resultado.nombre }}</h2>
+
+        <h2>Total caracteres: {{ resultado.cantidad }}</h2>
+      </div>
       {% endif %}
 
-      <a href="/">Volver</a>
+      <a class="volver" href="/">Volver al inicio</a>
     </div>
   </body>
 </html>

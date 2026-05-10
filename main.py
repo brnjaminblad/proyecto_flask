@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+import re
 
 app = Flask(__name__)
 
@@ -16,27 +17,49 @@ def inicio():
 def ejercicio1():
 
     resultado = None
+    error = None
 
     if request.method == 'POST':
 
-        nota1 = int(request.form['nota1'])
-        nota2 = int(request.form['nota2'])
-        nota3 = int(request.form['nota3'])
-        asistencia = int(request.form['asistencia'])
+        try:
 
-        promedio = (nota1 + nota2 + nota3) / 3
+            nota1 = int(request.form['nota1'])
+            nota2 = int(request.form['nota2'])
+            nota3 = int(request.form['nota3'])
+            asistencia = int(request.form['asistencia'])
 
-        if promedio >= 40 and asistencia >= 75:
-            estado = "APROBADO"
-        else:
-            estado = "REPROBADO"
+            # Validaciones
+            notas = [nota1, nota2, nota3]
 
-        resultado = {
-            'promedio': round(promedio, 1),
-            'estado': estado
-        }
+            for nota in notas:
+                if nota < 10 or nota > 70:
+                    error = "Las notas deben estar entre 10 y 70"
 
-    return render_template('ejercicio1.html', resultado=resultado)
+            if asistencia < 0 or asistencia > 100:
+                error = "La asistencia debe estar entre 0 y 100"
+
+            if error is None:
+
+                promedio = (nota1 + nota2 + nota3) / 3
+
+                if promedio >= 40 and asistencia >= 75:
+                    estado = "APROBADO"
+                else:
+                    estado = "REPROBADO"
+
+                resultado = {
+                    'promedio': round(promedio, 1),
+                    'estado': estado
+                }
+
+        except ValueError:
+            error = "Solo se permiten números enteros"
+
+    return render_template(
+        'ejercicio1.html',
+        resultado=resultado,
+        error=error
+    )
 
 
 
@@ -46,25 +69,40 @@ def ejercicio1():
 def ejercicio2():
 
     resultado = None
+    error = None
 
     if request.method == 'POST':
 
-        nombre1 = request.form['nombre1']
-        nombre2 = request.form['nombre2']
-        nombre3 = request.form['nombre3']
+        nombre1 = request.form['nombre1'].strip()
+        nombre2 = request.form['nombre2'].strip()
+        nombre3 = request.form['nombre3'].strip()
 
         nombres = [nombre1, nombre2, nombre3]
 
-        nombre_largo = max(nombres, key=len)
+        # Solo letras y espacios
+        patron = r'^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$'
 
-        cantidad = len(nombre_largo)
+        for nombre in nombres:
 
-        resultado = {
-            'nombre': nombre_largo,
-            'cantidad': cantidad
-        }
+            if not re.match(patron, nombre):
+                error = "Los nombres solo pueden contener letras"
 
-    return render_template('ejercicio2.html', resultado=resultado)
+        if error is None:
+
+            nombre_largo = max(nombres, key=len)
+
+            cantidad = len(nombre_largo)
+
+            resultado = {
+                'nombre': nombre_largo,
+                'cantidad': cantidad
+            }
+
+    return render_template(
+        'ejercicio2.html',
+        resultado=resultado,
+        error=error
+    )
 
 
 if __name__ == '__main__':
