@@ -10,78 +10,50 @@
   </head>
   <body>
     <div class="contenedor">
-      <h1>📘 Promedio de Notas</h1>
+      <h1>Formulario Compra Pintura</h1>
 
       <form method="POST">
         <input
-          type="number"
-          name="nota1"
-          placeholder="Nota 1 (10 a 70)"
-          min="10"
-          max="70"
-          step="1"
+          type="text"
+          name="nombre"
+          placeholder="Ingrese nombre"
           required
-          oninvalid="this.setCustomValidity('Ingrese una nota entre 10 y 70')"
-          oninput="this.setCustomValidity('')"
         />
 
         <input
           type="number"
-          name="nota2"
-          placeholder="Nota 2 (10 a 70)"
-          min="10"
-          max="70"
-          step="1"
+          name="edad"
+          placeholder="Ingrese edad"
+          min="1"
           required
-          oninvalid="this.setCustomValidity('Ingrese una nota entre 10 y 70')"
-          oninput="this.setCustomValidity('')"
         />
 
         <input
           type="number"
-          name="nota3"
-          placeholder="Nota 3 (10 a 70)"
-          min="10"
-          max="70"
-          step="1"
+          name="tarros"
+          placeholder="Cantidad tarros"
+          min="1"
           required
-          oninvalid="this.setCustomValidity('Ingrese una nota entre 10 y 70')"
-          oninput="this.setCustomValidity('')"
-        />
-
-        <input
-          type="number"
-          name="asistencia"
-          placeholder="Asistencia %"
-          min="0"
-          max="100"
-          step="1"
-          required
-          oninvalid="this.setCustomValidity('Ingrese una asistencia entre 0 y 100')"
-          oninput="this.setCustomValidity('')"
         />
 
         <button type="submit">Calcular</button>
       </form>
+      {% if resultado %}
 
-      {% if error %}
-      <div class="error">
-        {{ error }}
-      </div>
+      <h2>Cliente: {{ resultado.nombre }}</h2>
 
-      {% endif %} {% if resultado %}
-      <div class="resultado">
-        <h2>Promedio: {{ resultado.promedio }}</h2>
+      <h2>Total sin descuento: ${{ resultado.total }}</h2>
 
-        <h2
-          class="{% if resultado.estado == 'APROBADO' %}aprobado{% else %}reprobado{% endif %}"
-        >
-          {{ resultado.estado }}
-        </h2>
-      </div>
+      <h2>Descuento aplicado: {{ resultado.descuento }}%</h2>
+
+      <h2>Total a pagar: ${{ resultado.final }}</h2>
+
       {% endif %}
+      <br />
 
-      <a class="volver" href="/">Volver al inicio</a>
+      <a href="/">
+        <button>Volver</button>
+      </a>
     </div>
   </body>
 </html>
