@@ -1,109 +1,65 @@
 from flask import Flask, render_template, request
-import re
 
 app = Flask(__name__)
 
-# Página principal
-@app.route('/')
+
+@app.route("/")
 def inicio():
-    return render_template('index.html')
+    return render_template("index.html")
 
 
-
-# .::EJERCICIO 1::.
-
-
-@app.route('/ejercicio1', methods=['GET', 'POST'])
+@app.route("/ejercicio1", methods=["GET", "POST"])
 def ejercicio1():
 
     resultado = None
-    error = None
 
-    if request.method == 'POST':
+    if request.method == "POST":
+        nombre = request.form["nombre"]
+        edad = int(request.form["edad"])
+        tarros = int(request.form["tarros"])
 
-        try:
+        precio = 9000
+        total = tarros * precio
 
-            nota1 = int(request.form['nota1'])
-            nota2 = int(request.form['nota2'])
-            nota3 = int(request.form['nota3'])
-            asistencia = int(request.form['asistencia'])
+        descuento = 0
 
-            # Validaciones
-            notas = [nota1, nota2, nota3]
+        # DESCUENTOS
+        if edad >= 18 and edad <= 30:
+            descuento = 0.15
 
-            for nota in notas:
-                if nota < 10 or nota > 70:
-                    error = "Las notas deben estar entre 10 y 70"
+        elif edad > 30:
+            descuento = 0.25
 
-            if asistencia < 0 or asistencia > 100:
-                error = "La asistencia debe estar entre 0 y 100"
+        total_pagar = total - (total * descuento)
 
-            if error is None:
-
-                promedio = (nota1 + nota2 + nota3) / 3
-
-                if promedio >= 40 and asistencia >= 75:
-                    estado = "APROBADO"
-                else:
-                    estado = "REPROBADO"
-
-                resultado = {
-                    'promedio': round(promedio, 1),
-                    'estado': estado
-                }
-
-        except ValueError:
-            error = "Solo se permiten números enteros"
-
-    return render_template(
-        'ejercicio1.html',
-        resultado=resultado,
-        error=error
-    )
+        resultado = {
+            "nombre": nombre,
+            "total": total,
+            "descuento": int(descuento * 100),
+            "final": int(total_pagar),
+        }
 
 
-
-# .:: EJERCICIO 2 ::.
-
-@app.route('/ejercicio2', methods=['GET', 'POST'])
+@app.route("/ejercicio2", methods=["GET", "POST"])
 def ejercicio2():
 
-    resultado = None
-    error = None
+    mensaje = None
 
-    if request.method == 'POST':
+    if request.method == "POST":
+        usuario = request.form["usuario"]
+        password = request.form["password"]
 
-        nombre1 = request.form['nombre1'].strip()
-        nombre2 = request.form['nombre2'].strip()
-        nombre3 = request.form['nombre3'].strip()
+        if usuario == "juan" and password == "admin":
+            mensaje = "Bienvenido administrador juan"
 
-        nombres = [nombre1, nombre2, nombre3]
+        elif usuario == "pepe" and password == "user":
+            mensaje = "Bienvenido usuario pepe"
 
-        # Solo letras y espacios
-        patron = r'^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$'
+        else:
+            mensaje = "Usuario o contraseña incorrectos"
 
-        for nombre in nombres:
-
-            if not re.match(patron, nombre):
-                error = "Los nombres solo pueden contener letras"
-
-        if error is None:
-
-            nombre_largo = max(nombres, key=len)
-
-            cantidad = len(nombre_largo)
-
-            resultado = {
-                'nombre': nombre_largo,
-                'cantidad': cantidad
-            }
-
-    return render_template(
-        'ejercicio2.html',
-        resultado=resultado,
-        error=error
-    )
+    return render_template("ejercicio2.html", mensaje=mensaje)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
