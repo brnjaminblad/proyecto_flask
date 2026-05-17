@@ -1,37 +1,54 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Ejercicio 2</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-  </head>
-  <body>
-    <div class="contenedor">
-      <h1>Login Usuario</h1>
+<head>
+    <meta charset="UTF-8">
+    <title>Login Usuarios</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
 
-      <form method="POST">
-        <input type="text" name="usuario" placeholder="Usuario" required />
+<div class="contenedor">
+
+    <h1>🔐 Login Usuarios</h1>
+
+    <form method="POST">
 
         <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          required
-        />
+            type="text"
+            name="usuario"
+            placeholder="Usuario"
+            required
+            pattern="[A-Za-z]+"
+            oninvalid="this.setCustomValidity('Solo letras permitidas')"
+            oninput="this.setCustomValidity('')"
+        >
+
+        <input
+            type="password"
+            name="password"
+            placeholder="Contraseña"
+            required
+            oninvalid="this.setCustomValidity('Ingrese contraseña')"
+            oninput="this.setCustomValidity('')"
+        >
 
         <button type="submit">Ingresar</button>
-      </form>
-        {% if mensaje %}
-        <h2>{{ mensaje }}</h2>
-        {% endif %}
-      <br/>
 
-      <a href="/">
-        <button>Volver</button>
-      </a>
-    </div>
-  </body>
+    </form>
+
+    {% if mensaje %}
+        <div class="resultado">
+
+            <h2 class="{% if 'incorrectos' in mensaje %}bad{% else %}ok{% endif %}">
+                {{ mensaje }}
+            </h2>
+
+        </div>
+    {% endif %}
+
+    <a class="volver" href="/">⬅ Volver al menú</a>
+
+</div>
+
+</body>
 </html>
