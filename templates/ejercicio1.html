@@ -1,59 +1,74 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Ejercicio 1</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-  </head>
-  <body>
-    <div class="contenedor">
-      <h1>Formulario Compra Pintura</h1>
+<head>
+    <meta charset="UTF-8">
+    <title>Compra Pinturas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
 
-      <form method="POST">
-        <input
-          type="text"
-          name="nombre"
-          placeholder="Ingrese nombre"
-          required
-        />
+<div class="contenedor">
+
+    <h1>🎨 Compra de Pinturas</h1>
+
+    <form method="POST">
 
         <input
-          type="number"
-          name="edad"
-          placeholder="Ingrese edad"
-          min="1"
-          required
-        />
+            type="text"
+            name="nombre"
+            placeholder="Ingrese nombre"
+            required
+            pattern="[A-Za-záéíóúÁÉÍÓÚñÑ ]+"
+            oninvalid="this.setCustomValidity('Solo se permiten letras')"
+            oninput="this.setCustomValidity('')"
+        >
 
         <input
-          type="number"
-          name="tarros"
-          placeholder="Cantidad tarros"
-          min="1"
-          required
-        />
+            type="number"
+            name="edad"
+            placeholder="Ingrese edad"
+            min="1"
+            max="120"
+            step="1"
+            required
+            oninvalid="this.setCustomValidity('Ingrese una edad válida')"
+            oninput="this.setCustomValidity('')"
+        >
 
-        <button type="submit">Calcular</button>
-      </form>
-      {% if resultado %}
+        <input
+            type="number"
+            name="tarros"
+            placeholder="Cantidad tarros"
+            min="1"
+            step="1"
+            required
+            oninvalid="this.setCustomValidity('Ingrese mínimo 1 tarro')"
+            oninput="this.setCustomValidity('')"
+        >
 
-      <h2>Cliente: {{ resultado.nombre }}</h2>
+        <button type="submit">Calcular Compra</button>
 
-      <h2>Total sin descuento: ${{ resultado.total }}</h2>
+    </form>
 
-      <h2>Descuento aplicado: {{ resultado.descuento }}%</h2>
+    {% if resultado %}
+    <div class="resultado">
 
-      <h2>Total a pagar: ${{ resultado.final }}</h2>
+        <h2>👤 Cliente: {{ resultado.nombre }}</h2>
 
-      {% endif %}
-      <br />
+        <h2>Total sin descuento: ${{ resultado.total }}</h2>
 
-      <a href="/">
-        <button>Volver</button>
-      </a>
+        <h2>Descuento aplicado: {{ resultado.descuento }}%</h2>
+
+        <h2 class="ok">
+            Total a pagar: ${{ resultado.final }}
+        </h2>
+
     </div>
-  </body>
+    {% endif %}
+
+    <a class="volver" href="/">⬅ Volver al menú</a>
+
+</div>
+
+</body>
 </html>
